@@ -2,8 +2,8 @@
 #include <WebServer.h>
 #include <SPIFFS.h>
 
-const char* ssid = "MIWIFI_2G_sfhx";
-const char* password = "gJmjjuNe";
+const char* ssid = "****";
+const char* password = "****";
 
 WebServer server(80); // Create a WebServer instance listening on port 80
 
