@@ -1,6 +1,4 @@
 #include <Arduino.h>
-#include "FS.h"
-#include <WiFi.h>
 #include <WebServer.h>
 #include <SPIFFS.h>
 
@@ -9,22 +7,23 @@ const char* password = "gJmjjuNe";
 
 WebServer server(80); // Create a WebServer instance listening on port 80
 
-void handleRoot() {
-    // Open the index.html file
-    File file = SPIFFS.open(HTML, "r");
-    if (file) {
-        server.streamFile(file, "text/html");
-        file.close();
-    } else {
-        server.send(404, "text/plain", "File Not Found");
-    }
-}
 String HTML = "<!DOCTYPE html>\
 <html>\
 <body>\
 <h1>Mi primer archivo enviado?</h1>\
 </body>\
 </html>";
+
+void handleClient() {
+    // Open the index.html file
+    File file = SPIFFS.open("/index.html", "r");
+    if (file) {
+        server.streamFile(file, HTML);
+        file.close();
+    } else {
+        server.send(404, "text/plain", "File Not Found");
+    }
+}
 
 void setup() {
     Serial.begin(115200);
@@ -46,7 +45,7 @@ void setup() {
     Serial.println("SPIFFS initialized successfully!");
 
     // Route for root URI
-    server.on("/", HTTP_GET, handleRoot);
+    server.on("/", HTTP_GET, handleClient);
 
     // Start the server
     server.begin();
