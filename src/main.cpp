@@ -11,7 +11,7 @@ WebServer server(80); // Create a WebServer instance listening on port 80
 
 void handleRoot() {
     // Open the index.html file
-    File file = SPIFFS.open("/index.html", "r");
+    File file = SPIFFS.open(HTML, "r");
     if (file) {
         server.streamFile(file, "text/html");
         file.close();
@@ -42,13 +42,6 @@ void setup() {
     if (!SPIFFS.begin(true)) {
         Serial.println("SPIFFS initialization failed!");
         return;
-    }
-    File file = SPIFFS.open("/index.html", "w");
-    if (file) {
-        file.printf("%s", HTML);
-        file.close();
-    } else {
-        server.send(404, "text/plain", "File Not Found");
     }
     Serial.println("SPIFFS initialized successfully!");
 
